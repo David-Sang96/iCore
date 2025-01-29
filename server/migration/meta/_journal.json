@@ -22,6 +22,13 @@
       "when": 1738124460087,
       "tag": "0002_lethal_lionheart",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1738147927915,
+      "tag": "0003_kind_shadowcat",
+      "breakpoints": true
     }
   ]
 }

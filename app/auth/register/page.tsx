@@ -45,7 +45,7 @@ const RegisterPage = () => {
         });
         form.reset();
         router.push("/auth/login");
-      } else {
+      } else if (data?.error) {
         toast.error(data?.error);
       }
     },

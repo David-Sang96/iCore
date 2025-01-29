@@ -20,6 +20,7 @@ import { loginAction } from "@/server/actions/auth-actions";
 import { loginSchema } from "@/utils/auth-schema-type";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const form = useForm<z.infer<typeof loginSchema>>({
@@ -29,7 +30,25 @@ const LoginPage = () => {
       password: "",
     },
   });
-  const { execute, result, status } = useAction(loginAction);
+  const { execute, result, status } = useAction(loginAction, {
+    onSuccess({ data }) {
+      if (data?.success) {
+        toast.success(data.success);
+        form.reset();
+      } else if (data?.error?.includes("email")) {
+        toast.error(data?.error, {
+          action: {
+            label: "Open Gmail",
+            onClick() {
+              window.open("https://mail.google.com", "_blank");
+            },
+          },
+        });
+      } else if (data?.error) {
+        toast.error(data?.error);
+      }
+    },
+  });
 
   const onSubmit = ({ email, password }: z.infer<typeof loginSchema>) => {
     execute({ email, password });
