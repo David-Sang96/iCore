@@ -1,4 +1,5 @@
 import AppNav from "@/components/navigation/app-nav";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -30,7 +31,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto max-xl:px-3 max-md:px-1.5`}
       >
         <AppNav />
-        <section> {children}</section>
+        <main> {children}</main>
+        <Toaster
+          position="top-center"
+          closeButton
+          richColors
+          duration={3000}
+          expand={true}
+        />
       </body>
     </html>
   );

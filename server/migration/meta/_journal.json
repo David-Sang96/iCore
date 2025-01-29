@@ -8,6 +8,20 @@
       "when": 1738036112340,
       "tag": "0000_parallel_skin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1738056677366,
+      "tag": "0001_cloudy_master_chief",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1738124460087,
+      "tag": "0002_lethal_lionheart",
+      "breakpoints": true
     }
   ]
 }

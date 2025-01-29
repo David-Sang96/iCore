@@ -14,7 +14,7 @@ const UserButton = ({ user }: Session) => {
       {!user?.email ? (
         <Button className="px-2.5 text-sm" asChild>
           <Link href={"/auth/login"}>
-            <LogIn />
+            <LogIn aria-hidden />
             Login
           </Link>
         </Button>
@@ -24,7 +24,7 @@ const UserButton = ({ user }: Session) => {
           onClick={() => signOut()}
           className="px-2.5 text-sm"
         >
-          <LogOut />
+          <LogOut aria-hidden />
           Logout
         </Button>
       )}
