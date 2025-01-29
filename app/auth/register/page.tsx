@@ -34,16 +34,20 @@ const RegisterPage = () => {
   });
   const { execute, status, result } = useAction(registerAction, {
     onSuccess({ data }) {
-      form.reset();
-      toast.success(data?.success, {
-        action: {
-          label: "Open Gmail",
-          onClick: () => {
-            window.open("https://mail.google.com", "_blank");
+      if (data?.success) {
+        toast.success(data?.success, {
+          action: {
+            label: "Open Gmail",
+            onClick() {
+              window.open("https://mail.google.com", "_blank");
+            },
           },
-        },
-      });
-      router.push("/auth/login");
+        });
+        form.reset();
+        router.push("/auth/login");
+      } else {
+        toast.error(data?.error);
+      }
     },
   });
 
@@ -120,6 +124,7 @@ const RegisterPage = () => {
           <Button
             type="submit"
             className={cn("w-full", status === "executing" && "animate-pulse")}
+            disabled={status === "executing"}
           >
             Register
           </Button>

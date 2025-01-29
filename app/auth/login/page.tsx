@@ -86,6 +86,7 @@ const LoginPage = () => {
           <Button
             type="submit"
             className={cn("w-full", status === "executing" && "animate-pulse")}
+            disabled={status === "executing"}
           >
             Login
           </Button>

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 
 const UserButton = ({ user }: Session) => {
-  console.log(user);
   return (
     <div>
       {user?.email}

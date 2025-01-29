@@ -10,30 +10,30 @@ import {
 } from "@react-email/components";
 import { Store } from "lucide-react";
 
-interface EmailConfirmationProps {
+interface EmailVerificationProps {
   userFirstname?: string;
-  confirmationLink?: string;
+  verificationLink?: string;
 }
 
-export const EmailConfirmationTemplate = ({
+export const EmailVerificationTemplate = ({
   userFirstname,
-  confirmationLink,
-}: EmailConfirmationProps) => {
+  verificationLink,
+}: EmailVerificationProps) => {
   return (
     <Html>
       <Head />
-      <Preview>Account confirmation with email - Shopee</Preview>
+      <Preview>Account verification with email - Shopee</Preview>
       <Body style={main}>
         <Container style={container}>
           <Store width={40} height={33} />
           <Section>
             <Text style={text}>Hi {userFirstname},</Text>
             <Text style={text}>
-              Thank you for signing up for Dropbox! Please confirm your email
+              Thank you for signing up for Dropbox! Please verify your email
               address to activate your account.
             </Text>
-            <Button style={button} href={confirmationLink}>
-              Confirm Email
+            <Button style={button} href={verificationLink}>
+              Verify Email
             </Button>
             <Text style={text}>
               If you didn&apos;t create this account, you can ignore this email.
@@ -53,12 +53,12 @@ export const EmailConfirmationTemplate = ({
   );
 };
 
-EmailConfirmationTemplate.PreviewProps = {
+EmailVerificationTemplate.PreviewProps = {
   userFirstname: "Shopee",
-  confirmationLink: "https://google.com",
-} as EmailConfirmationProps;
+  verificationLink: "https://google.com",
+} as EmailVerificationProps;
 
-export default EmailConfirmationTemplate;
+export default EmailVerificationTemplate;
 
 const main = {
   backgroundColor: "#f6f9fc",

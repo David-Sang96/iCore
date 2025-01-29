@@ -8,6 +8,7 @@ import { loginSchema, registerSchema } from "@/utils/auth-schema-type";
 import { generateEmailVerificationToken } from "@/utils/tokens";
 import { db } from "..";
 import { users } from "../schema";
+import { sendEmail } from "./email-actions";
 
 export const registerAction = actionClient
   .schema(registerSchema)
@@ -21,7 +22,13 @@ export const registerAction = actionClient
     if (isUserExisted) {
       if (!isUserExisted.emailVerified) {
         const verificationToken = await generateEmailVerificationToken(email);
+
         // send email verification code
+        await sendEmail(
+          verificationToken.email,
+          verificationToken.token,
+          name.slice(0, 5)
+        );
         return { error: "Please verify your email." };
       }
       return { error: "Email already exist." };
@@ -36,6 +43,12 @@ export const registerAction = actionClient
     const verificationToken = await generateEmailVerificationToken(email);
 
     //  send email verification code
+    await sendEmail(
+      verificationToken.email,
+      verificationToken.token,
+      name.slice(0, 5)
+    );
+
     return { success: "Verification code has been sent to your email." };
   });
 
