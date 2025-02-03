@@ -7,7 +7,7 @@ import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 
 import { db } from "@/server";
-import { loginSchema } from "@/utils/auth-schema-type";
+import { loginSchema } from "@/utils/auth-schema/auth-schema-type";
 import { users } from "./schema";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -20,10 +20,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
+      allowDangerousEmailAccountLinking: true, // make able to login with different provider using same email
     }),
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID!,
       clientSecret: process.env.AUTH_GITHUB_SECRET!,
+      allowDangerousEmailAccountLinking: true, // make able to login with different provider using same email
     }),
     Credentials({
       authorize: async (credentials) => {
@@ -36,7 +38,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
           if (!user || !password) return null;
 
-          const isPasswordMatch = await bcrypt.compare(password, user.password);
+          const isPasswordMatch = await bcrypt.compare(
+            password,
+            user.password!
+          );
           if (isPasswordMatch) return user;
         }
         return null;

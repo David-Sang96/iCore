@@ -1,30 +1,25 @@
 "use server";
 
 import { actionClient } from "@/lib/safe-action";
+import { Pool } from "@neondatabase/serverless";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
-
-import { loginSchema, registerSchema } from "@/utils/auth-schema-type";
-import { generateEmailVerificationToken } from "@/utils/tokens";
 import { AuthError } from "next-auth";
-import { db } from "..";
+
+import { db } from "@/server";
+import {
+  loginSchema,
+  passwordResetEmailSchema,
+  passwordResetSchema,
+  registerSchema,
+} from "@/utils/auth-schema/auth-schema-type";
+import { drizzle } from "drizzle-orm/neon-serverless";
 import { signIn } from "../auth";
-import { users } from "../schema";
-import { sendEmail } from "./email-actions";
-
-export const sendEmailWithVerificationToken = async (
-  email: string,
-  name: string
-) => {
-  const verificationToken = await generateEmailVerificationToken(email);
-
-  // send email verification code
-  await sendEmail(
-    verificationToken.email,
-    verificationToken.token,
-    name.slice(0, 5)
-  );
-};
+import { passwordResetToken, users } from "../schema";
+import {
+  sendEmailWithPasswordResetToken,
+  sendEmailWithVerificationToken,
+} from "./email-actions";
 
 export const registerAction = actionClient
   .schema(registerSchema)
@@ -65,7 +60,7 @@ export const loginAction = actionClient
 
       const isPasswordMatch = await bcrypt.compare(
         password,
-        existedUser.password
+        existedUser.password!
       );
       if (!isPasswordMatch) return { error: "Invalid credentials" };
 
@@ -90,4 +85,62 @@ export const loginAction = actionClient
       }
       throw error;
     }
+  });
+
+export const SendPasswordResetEmailAction = actionClient
+  .schema(passwordResetEmailSchema)
+  .action(async ({ parsedInput: { email } }) => {
+    const existedUser = await db.query.users.findFirst({
+      where: eq(users.email, email),
+    });
+    if (!existedUser) return { error: "Invalid credentials" };
+
+    await sendEmailWithPasswordResetToken(email, existedUser.name!);
+    return { success: "Password reset email has been sent" };
+  });
+
+export const PasswordResetAction = actionClient
+  .schema(passwordResetSchema)
+  .action(async ({ parsedInput: { oldPassword, newPassword, token } }) => {
+    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    const dbPool = drizzle(pool);
+    if (!token) return { error: "Missing Token" };
+
+    const existingToken = await db.query.passwordResetToken.findFirst({
+      where: eq(passwordResetToken.token, token),
+    });
+    if (!existingToken) return { error: "Invalid Token" };
+
+    if (new Date() > new Date(existingToken.expire))
+      return { error: "Expired Token" };
+
+    const existingUser = await db.query.users.findFirst({
+      where: eq(users.email, existingToken.email),
+    });
+    if (!existingUser) return { error: "Invalid credentials" };
+
+    const isPasswordMatch = await bcrypt.compare(
+      oldPassword,
+      existingUser.password!
+    );
+    if (!isPasswordMatch) return { error: "Invalid credentials" };
+
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(newPassword, salt);
+
+    // await deletePasswordResetToken(isTokenValid.id);
+    // await db.update(users).set({ password: hashPassword });
+
+    await dbPool.transaction(async (context) => {
+      await context
+        .update(users)
+        .set({ password: hashPassword })
+        .where(eq(users.id, existingUser.id));
+
+      await context
+        .delete(passwordResetToken)
+        .where(eq(passwordResetToken.id, existingToken.id));
+    });
+
+    return { success: "Password updated successfully" };
   });

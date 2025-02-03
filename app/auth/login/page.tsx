@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { loginAction } from "@/server/actions/auth-actions";
-import { loginSchema } from "@/utils/auth-schema-type";
+import { loginSchema } from "@/utils/auth-schema/auth-schema-type";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -99,7 +99,7 @@ const LoginPage = () => {
             )}
           />
           <div className=" text-end text-[#884DEE] hover:underline hover:underline-offset-4 text-sm">
-            <Link href={"/auth/forget-password"}>Forget password?</Link>
+            <Link href={"/auth/reset-email"}>Forget password?</Link>
           </div>
 
           <Button

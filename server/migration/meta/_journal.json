@@ -29,6 +29,34 @@
       "when": 1738147927915,
       "tag": "0003_kind_shadowcat",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1738341430321,
+      "tag": "0004_aberrant_king_cobra",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1738503454284,
+      "tag": "0005_cold_orphan",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1738503497300,
+      "tag": "0006_whole_electro",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1738503640630,
+      "tag": "0007_lucky_songbird",
+      "breakpoints": true
     }
   ]
 }

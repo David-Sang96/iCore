@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 
 const ProviderLogin = () => {
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-1.5 pb-4">
       <Button
         className="w-full"
         variant={"outline"}

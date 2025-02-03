@@ -29,8 +29,8 @@ const AuthForm = ({
       <CardHeader className="px-3 py-5">
         <CardTitle>{formTitle}</CardTitle>
       </CardHeader>
-      <CardContent className="px-3">{children}</CardContent>
-      <CardFooter className="block px-3">
+      <CardContent className="px-3 pb-4">{children}</CardContent>
+      <CardFooter className="block px-3 ">
         {showProvider && <ProviderLogin />}
         <FormFooter footerHref={footerHref} footerLabel={footerLabel} />
       </CardFooter>

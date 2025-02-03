@@ -18,7 +18,7 @@ export const users = pgTable("user", {
     .$defaultFn(() => createId()),
   name: text("name"),
   email: text("email").unique(),
-  password: text("password").notNull(),
+  password: text("password"),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   isTwoFactorEnabled: boolean("isTwoFactorEnabled").default(false),
@@ -59,7 +59,20 @@ export const emailVerificationToken = pgTable(
       .$defaultFn(() => createId()),
     token: text("token").notNull(),
     expire: timestamp("expire", { mode: "date" }).notNull(),
-    email: text("email").unique().notNull(),
+    email: text("email").notNull().unique(),
+  },
+  (vt) => ({ compoundKey: primaryKey({ columns: [vt.id, vt.token] }) })
+);
+
+export const passwordResetToken = pgTable(
+  "password_reset_token",
+  {
+    id: text("id")
+      .notNull()
+      .$default(() => createId()),
+    token: text("token").notNull(),
+    expire: timestamp("expire", { mode: "date" }).notNull(),
+    email: text("email").notNull().unique(),
   },
   (vt) => ({ compoundKey: primaryKey({ columns: [vt.id, vt.token] }) })
 );

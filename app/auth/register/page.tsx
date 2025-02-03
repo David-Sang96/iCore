@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { registerAction } from "@/server/actions/auth-actions";
-import { registerSchema } from "@/utils/auth-schema-type";
+import { registerSchema } from "@/utils/auth-schema/auth-schema-type";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
