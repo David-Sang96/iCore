@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { PasswordResetAction } from "@/server/actions/auth-actions";
-import { passwordResetSchema } from "@/utils/auth-schema/auth-schema-type";
+import { passwordResetSchema } from "@/utils/schema-types/auth-schema-type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -72,7 +72,12 @@ const ResetPasswordPage = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="*******" {...field} type="password" />
+                  <Input
+                    placeholder="*******"
+                    {...field}
+                    type="password"
+                    disabled={status === "executing"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,7 +90,12 @@ const ResetPasswordPage = () => {
               <FormItem>
                 <FormLabel>New Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="*******" {...field} type="password" />
+                  <Input
+                    placeholder="*******"
+                    {...field}
+                    type="password"
+                    disabled={status === "executing"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -98,7 +108,12 @@ const ResetPasswordPage = () => {
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="*******" {...field} type="password" />
+                  <Input
+                    placeholder="*******"
+                    {...field}
+                    type="password"
+                    disabled={status === "executing"}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

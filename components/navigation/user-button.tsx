@@ -4,6 +4,7 @@ import { LogIn, LogOut, Settings, Truck } from "lucide-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
@@ -14,16 +15,18 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-const UserButton = ({ user }: Session) => {
-  const getFirstLetterInEachWord = (name: string) => {
-    const everyFirstCapitalLetters = name
-      .split(" ")
-      .map((item) => item.charAt(0).toUpperCase())
-      .join("")
-      .slice(0, 2);
+export const getFirstLetterInEachWord = (name: string) => {
+  const everyFirstCapitalLetters = name
+    .split(" ")
+    .map((item) => item.charAt(0).toUpperCase())
+    .join("")
+    .slice(0, 2);
 
-    return everyFirstCapitalLetters;
-  };
+  return everyFirstCapitalLetters;
+};
+
+const UserButton = ({ user }: Session) => {
+  const router = useRouter();
 
   return (
     <div>
@@ -48,7 +51,7 @@ const UserButton = ({ user }: Session) => {
             <div className="flex items-center gap-2.5 p-2 mb-2 cursor-pointer hover:scale-95 duration-500 ease-in-out shadow-md border border-primary/20 rounded-md">
               <Avatar>
                 <AvatarImage src={user.image!} />
-                <AvatarFallback className="bg-white text-primary font-medium">
+                <AvatarFallback className="bg-primary text-white font-medium">
                   {getFirstLetterInEachWord(user.name!)}
                 </AvatarFallback>
               </Avatar>
@@ -58,7 +61,10 @@ const UserButton = ({ user }: Session) => {
               </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer group hover:bg-primary/10">
+            <DropdownMenuItem
+              className="group hover:bg-primary/10 cursor-pointer "
+              onClick={() => router.push("/dashboard/orders")}
+            >
               <Truck
                 aria-hidden="true"
                 style={{ width: 21, height: 21, marginRight: 3 }}
@@ -68,7 +74,10 @@ const UserButton = ({ user }: Session) => {
                 My Orders
               </span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer group hover:bg-primary/10">
+            <DropdownMenuItem
+              className="group hover:bg-primary/10 cursor-pointer "
+              onClick={() => router.push("/dashboard/settings")}
+            >
               <Settings
                 aria-hidden="true"
                 style={{ width: 21, height: 21, marginRight: 3 }}

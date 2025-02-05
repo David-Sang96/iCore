@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { loginAction } from "@/server/actions/auth-actions";
-import { loginSchema } from "@/utils/auth-schema/auth-schema-type";
+import { loginSchema } from "@/utils/schema-types/auth-schema-type";
 import { useAction } from "next-safe-action/hooks";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -74,6 +74,7 @@ const LoginPage = () => {
                     placeholder="example@email.com"
                     {...field}
                     className="text-sm"
+                    disabled={status === "executing"}
                   />
                 </FormControl>
                 <FormMessage />
@@ -92,6 +93,7 @@ const LoginPage = () => {
                     {...field}
                     className="text-sm"
                     type="password"
+                    disabled={status === "executing"}
                   />
                 </FormControl>
                 <FormMessage />

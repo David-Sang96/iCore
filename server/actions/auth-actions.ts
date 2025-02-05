@@ -12,7 +12,7 @@ import {
   passwordResetEmailSchema,
   passwordResetSchema,
   registerSchema,
-} from "@/utils/auth-schema/auth-schema-type";
+} from "@/utils/schema-types/auth-schema-type";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { signIn } from "../auth";
 import { passwordResetToken, users } from "../schema";

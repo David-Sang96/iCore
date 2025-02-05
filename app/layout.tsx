@@ -28,10 +28,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-7xl mx-auto max-xl:px-3 max-md:px-1.5`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-6xl mx-auto px-1 md:px-0`}
       >
         <AppNav />
-        <main> {children}</main>
+        <main className="mt-2 md:mt-5 px-2"> {children}</main>
         <Toaster
           position="top-center"
           closeButton

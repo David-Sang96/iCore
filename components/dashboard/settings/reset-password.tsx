@@ -1,30 +1,28 @@
 "use client";
 
-import AuthForm from "@/components/auth/auth-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { SendPasswordResetEmailAction } from "@/server/actions/auth-actions";
 import { passwordResetEmailSchema } from "@/utils/schema-types/auth-schema-type";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Lock } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { useAction } from "next-safe-action/hooks";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import SettingsCard from "./setting-card";
 
-const SendPasswordResetEmailPage = () => {
+type ProfileResetPasswordPageProps = {
+  email: string;
+};
+
+const ProfileResetPasswordPage = ({ email }: ProfileResetPasswordPageProps) => {
   const form = useForm<z.infer<typeof passwordResetEmailSchema>>({
     resolver: zodResolver(passwordResetEmailSchema),
     defaultValues: {
-      email: "",
+      email: email ? email : undefined,
     },
   });
 
@@ -39,10 +37,11 @@ const SendPasswordResetEmailPage = () => {
             },
           },
         });
+        setTimeout(() => {
+          signOut({ callbackUrl: "/auth/login" });
+        }, 3000);
       }
-      if (data?.error) {
-        toast.error(data.error);
-      }
+      if (data?.error) toast.error(data.error);
     },
   });
 
@@ -51,45 +50,21 @@ const SendPasswordResetEmailPage = () => {
   };
 
   return (
-    <AuthForm
-      formTitle="Reset your password"
-      showProvider={false}
-      footerHref="/auth/login"
-      footerLabel="Already have account? Login here"
-    >
+    <SettingsCard>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="example@gmail.com"
-                    {...field}
-                    disabled={status === "executing"}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <Button
             type="submit"
-            className={cn(
-              "w-full mt-4",
-              status === "executing" && "animate-pulse"
-            )}
+            className={cn("w-full", status === "executing" && "animate-pulse")}
             disabled={status === "executing"}
           >
-            Send Email
+            <Lock aria-hidden="true" />
+            <span>Change Password</span>
           </Button>
         </form>
       </Form>
-    </AuthForm>
+    </SettingsCard>
   );
 };
 
-export default SendPasswordResetEmailPage;
+export default ProfileResetPasswordPage;

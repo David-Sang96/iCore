@@ -25,7 +25,7 @@ const AuthForm = ({
   footerHref,
 }: AuthFormProps) => {
   return (
-    <Card className=" mt-10">
+    <Card>
       <CardHeader className="px-3 py-5">
         <CardTitle>{formTitle}</CardTitle>
       </CardHeader>

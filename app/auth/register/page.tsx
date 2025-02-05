@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { registerAction } from "@/server/actions/auth-actions";
-import { registerSchema } from "@/utils/auth-schema/auth-schema-type";
+import { registerSchema } from "@/utils/schema-types/auth-schema-type";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -79,6 +79,7 @@ const RegisterPage = () => {
                     placeholder="John Doe..."
                     {...field}
                     className="text-sm"
+                    disabled={status === "executing"}
                   />
                 </FormControl>
                 <FormMessage />
@@ -96,6 +97,7 @@ const RegisterPage = () => {
                     placeholder="example@email.com"
                     {...field}
                     className="text-sm"
+                    disabled={status === "executing"}
                   />
                 </FormControl>
                 <FormMessage />
@@ -114,6 +116,7 @@ const RegisterPage = () => {
                     {...field}
                     className="text-sm"
                     type="password"
+                    disabled={status === "executing"}
                   />
                 </FormControl>
                 <FormMessage />

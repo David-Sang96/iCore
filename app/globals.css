@@ -58,3 +58,43 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+html body[data-scroll-locked] {
+  padding-inline: 0px !important;
+  margin: auto !important;
+}
+
+@media screen and (max-width: 1268px) {
+  html body[data-scroll-locked] {
+    padding-inline: 12px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  html body[data-scroll-locked] {
+    padding-inline: 4px !important;
+  }
+}
+
+/* For the entire page */
+::-webkit-scrollbar {
+  width: 6px; /* Adjust width */
+  height: 6px; /* Adjust height (for horizontal scrollbar) */
+}
+
+/* Scrollbar Track (background) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Light gray */
+  border-radius: 10px;
+}
+
+/* Scrollbar Thumb (the moving part) */
+::-webkit-scrollbar-thumb {
+  background: #7c3aed; /* Darker gray */
+  border-radius: 10px;
+}
+
+/* On hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #7c3aed;
+}
