@@ -9,3 +9,8 @@ export const updateProfileNameSchema = z.object({
     .email({ message: "Please enter a valid email address." })
     .optional(),
 });
+
+export const twoFactorSchema = z.object({
+  isTwoFactorEnable: z.boolean({ message: "Must be true or false value" }),
+  email: z.string().email({ message: "Invalid Email" }),
+});

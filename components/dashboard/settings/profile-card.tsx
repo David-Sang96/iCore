@@ -34,7 +34,6 @@ type ProfileCardProps = {
 };
 
 const ProfileCard = ({ session }: ProfileCardProps) => {
-  console.log(session);
   const isDesktop = useMediaQuery("(min-width : 768px)");
   const [open, setOpen] = useState(false);
 

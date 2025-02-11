@@ -10,19 +10,20 @@ const SettingsPage = async () => {
   if (!session?.user) return redirect("/");
 
   return (
-    <>
-      <SettingsCard title="Settings" description="Manage your account settings">
-        <section className="grid gap-4 md:grid-cols-2">
-          <ProfileCard session={session} />
-          {!session.user.isOAuth && (
-            <div className="space-y-4">
-              <ProfileResetPasswordPage email={session.user.email!} />
-              <TwoFactorAuthenticationPage />
-            </div>
-          )}
-        </section>
-      </SettingsCard>
-    </>
+    <SettingsCard title="Settings" description="Manage your account settings">
+      <section className="grid gap-4 md:grid-cols-2">
+        <ProfileCard session={session} />
+        {!session.user.isOAuth && (
+          <div className="space-y-4">
+            <ProfileResetPasswordPage email={session.user.email!} />
+            <TwoFactorAuthenticationPage
+              isTwoFactorEnable={session.user.isTwoFactorEnabled}
+              email={session.user.email!}
+            />
+          </div>
+        )}
+      </section>
+    </SettingsCard>
   );
 };
 

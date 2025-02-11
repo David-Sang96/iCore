@@ -57,6 +57,13 @@
       "when": 1738503640630,
       "tag": "0007_lucky_songbird",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1739250366322,
+      "tag": "0008_odd_chronomancer",
+      "breakpoints": true
     }
   ]
 }

@@ -64,9 +64,9 @@ html body[data-scroll-locked] {
   margin: auto !important;
 }
 
-@media screen and (max-width: 1268px) {
+@media screen and (min-width: 768px) {
   html body[data-scroll-locked] {
-    padding-inline: 12px !important;
+    padding-inline: 8px !important;
   }
 }
 

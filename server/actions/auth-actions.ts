@@ -3,7 +3,7 @@
 import { actionClient } from "@/lib/safe-action";
 import { Pool } from "@neondatabase/serverless";
 import bcrypt from "bcrypt";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { AuthError } from "next-auth";
 
 import { db } from "@/server";
@@ -13,11 +13,13 @@ import {
   passwordResetSchema,
   registerSchema,
 } from "@/utils/schema-types/auth-schema-type";
+import { deleteTwoFACode } from "@/utils/tokens";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { signIn } from "../auth";
-import { passwordResetToken, users } from "../schema";
+import { passwordResetToken, twoFactorAuthCode, users } from "../schema";
 import {
   sendEmailWithPasswordResetToken,
+  sendEmailWithTwoFACode,
   sendEmailWithVerificationToken,
 } from "./email-actions";
 
@@ -51,7 +53,7 @@ export const registerAction = actionClient
 
 export const loginAction = actionClient
   .schema(loginSchema)
-  .action(async ({ parsedInput: { email, password } }) => {
+  .action(async ({ parsedInput: { email, password, twoFACode } }) => {
     try {
       const existedUser = await db.query.users.findFirst({
         where: eq(users.email, email),
@@ -70,6 +72,27 @@ export const loginAction = actionClient
           existedUser.name!
         );
         return { error: "Please verify your email." };
+      }
+
+      if (existedUser.isTwoFactorEnabled) {
+        if (twoFACode) {
+          const existed2FACode = await db.query.twoFactorAuthCode.findFirst({
+            where: and(
+              eq(twoFactorAuthCode.email, existedUser.email!),
+              eq(twoFactorAuthCode.code, twoFACode)
+            ),
+          });
+          if (!existed2FACode)
+            return { twoFactorError: "Invalid verifcaiton code" };
+
+          if (new Date() > new Date(existed2FACode.expire))
+            return { twoFactorError: "Token expired" };
+
+          await deleteTwoFACode(existed2FACode.id);
+        } else {
+          await sendEmailWithTwoFACode(existedUser.email!);
+          return { twoFactorSuccess: "2FA code has been sent to your mail" };
+        }
       }
 
       await signIn("credentials", { email, password, redirectTo: "/" });

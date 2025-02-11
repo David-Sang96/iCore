@@ -5,7 +5,7 @@ export const loginSchema = z.object({
   password: z.string().min(4, {
     message: "Password must be at least 4 characters.",
   }),
-  otpCode: z.string().optional(),
+  twoFACode: z.string().optional(),
 });
 
 export const registerSchema = z.object({

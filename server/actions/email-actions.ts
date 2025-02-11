@@ -2,11 +2,13 @@
 
 import EmailVerificationTemplate from "@/components/email-templates/email-confirmation";
 import ResetPasswordTemplate from "@/components/email-templates/password-reset";
+import TwoFactorAuthTemplate from "@/components/email-templates/two-factor";
 import { getBaseUrl } from "@/utils/base-url";
 import {
   deleteEmailVerificationToken,
   generateEmailVerificationToken,
   generatePasswordResetToken,
+  generateTwoFactorCode,
 } from "@/utils/tokens";
 import { eq } from "drizzle-orm";
 import { Resend } from "resend";
@@ -36,17 +38,28 @@ export const sendEmailWithVerificationToken = async (
   email: string,
   name: string
 ) => {
-  const verificationToken = await generateEmailVerificationToken(email);
+  try {
+    const verificationToken = await generateEmailVerificationToken(email);
+    if (!verificationToken)
+      return { error: "Failed to generate email verification token" };
 
-  if (!verificationToken)
-    return { error: "Failed to generate email verification token" };
+    // send email verification code
+    const verificationLink = `${getBaseUrl()}/auth/verify-email?token=${verificationToken.token}`;
+    const { data, error } = await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: email,
+      subject: "Account verification with email - Shopee",
+      react: EmailVerificationTemplate({
+        userFirstname: name.slice(0, 5),
+        verificationLink,
+      }),
+    });
 
-  // send email verification code
-  await sendVerificationEmail(
-    verificationToken.email,
-    verificationToken.token,
-    name.slice(0, 5)
-  );
+    if (error) throw error;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 export const verifyEmail = async (token: string) => {
@@ -95,7 +108,6 @@ export const sendEmailWithPasswordResetToken = async (
   name: string
 ) => {
   const passwordResetToken = await generatePasswordResetToken(email);
-
   if (!passwordResetToken)
     return { error: "Failed to generate password reset token" };
 
@@ -105,4 +117,26 @@ export const sendEmailWithPasswordResetToken = async (
     passwordResetToken.token,
     name
   );
+};
+
+// --------- Two Factor Authentication ----------
+
+export const sendEmailWithTwoFACode = async (email: string) => {
+  try {
+    const twoFACode = await generateTwoFactorCode(email);
+    if (!twoFACode) return { error: "Failed to generate two factor code" };
+
+    const { data, error } = await resend.emails.send({
+      from: "onboarding@resend.dev",
+      to: twoFACode.email,
+      subject: "Two factor code for your Shopee account",
+      react: TwoFactorAuthTemplate(twoFACode.code),
+    });
+    // detect and stop execution if an error occurs.
+    if (error) throw error;
+  } catch (error) {
+    console.log(error);
+    //propagate the error so the caller can handle it properly
+    throw error;
+  }
 };
