@@ -1,4 +1,5 @@
 import ProfileCard from "@/components/dashboard/settings/profile-card";
+import ProfileLogoutPage from "@/components/dashboard/settings/profile-logout";
 import ProfileResetPasswordPage from "@/components/dashboard/settings/reset-password";
 import SettingsCard from "@/components/dashboard/settings/setting-card";
 import TwoFactorAuthenticationPage from "@/components/dashboard/settings/two-factor";
@@ -14,14 +15,15 @@ const SettingsPage = async () => {
       <section className="grid gap-4 md:grid-cols-2">
         <ProfileCard session={session} />
         {!session.user.isOAuth && (
-          <div className="space-y-4">
-            <ProfileResetPasswordPage email={session.user.email!} />
+          <>
             <TwoFactorAuthenticationPage
               isTwoFactorEnable={session.user.isTwoFactorEnabled}
               email={session.user.email!}
             />
-          </div>
+            <ProfileResetPasswordPage email={session.user.email!} />
+          </>
         )}
+        <ProfileLogoutPage />
       </section>
     </SettingsCard>
   );

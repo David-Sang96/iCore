@@ -14,3 +14,11 @@ export const twoFactorSchema = z.object({
   isTwoFactorEnable: z.boolean({ message: "Must be true or false value" }),
   email: z.string().email({ message: "Invalid Email" }),
 });
+
+export const avatarSchema = z.object({
+  image: z
+    .string()
+    .url({ message: "Pleae enter a valid image url" })
+    .optional(),
+  email: z.string().email({ message: "Invalid Email" }),
+});

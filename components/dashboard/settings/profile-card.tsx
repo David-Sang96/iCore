@@ -1,7 +1,5 @@
 "use client";
 
-import { getFirstLetterInEachWord } from "@/components/navigation/user-button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,11 +21,12 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { UserRoundPen } from "lucide-react";
+import { Mail, UserRound, UserRoundPen } from "lucide-react";
 import { Session } from "next-auth";
 import { useState } from "react";
 import ProfileForm from "./profile-form";
 import SettingsCard from "./setting-card";
+import UploadAvatarForm from "./upload-avatar-form";
 
 type ProfileCardProps = {
   session: Session;
@@ -39,17 +38,45 @@ const ProfileCard = ({ session }: ProfileCardProps) => {
 
   return (
     <SettingsCard>
-      <div className="flex justify-between">
-        <div className="flex items-center gap-1.5">
-          <Avatar className="size-12 md:size-14">
-            <AvatarImage src={session?.user?.image!} alt="profile picture" />
-            <AvatarFallback className="bg-primary text-white font-medium">
-              {getFirstLetterInEachWord(session?.user?.name!)}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <h2 className="font-medium">{session.user?.name}</h2>
-            <p className="text-sm text-muted-foreground">
+      <div className="flex md:justify-between">
+        <div className="flex-1">
+          <UploadAvatarForm
+            image={session.user.image}
+            name={session.user.name!}
+            email={session.user.email!}
+          />
+          <div className="md:mt-3">
+            <h2 className="text-sm flex gap-1">
+              <div className="flex">
+                <UserRound
+                  aria-hidden="true"
+                  style={{
+                    width: 14,
+                    height: 14,
+                    marginRight: 2,
+                    marginTop: 2,
+                  }}
+                />
+                <span className="text-muted-foreground font-normal">Name:</span>
+              </div>
+              {session.user?.name}
+            </h2>
+            <p className="text-sm flex gap-1">
+              <div className="flex">
+                <Mail
+                  aria-hidden="true"
+                  style={{
+                    width: 14,
+                    height: 14,
+                    marginRight: 2,
+                    marginTop: 2,
+                  }}
+                />
+                <span className="text-muted-foreground font-normal">
+                  Email:
+                </span>
+              </div>
+
               {session.user?.email}
             </p>
           </div>

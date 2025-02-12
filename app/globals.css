@@ -98,3 +98,8 @@ html body[data-scroll-locked] {
 ::-webkit-scrollbar-thumb:hover {
   background: #7c3aed;
 }
+
+/* modify uploading button  */
+[data-ut-element="button"][data-state="uploading"]::after {
+  @apply bg-primary/90;
+}

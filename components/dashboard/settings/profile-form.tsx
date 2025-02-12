@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { updateProfileNameAction } from "@/server/actions/setting-profile-actions";
+import { updateProfileNameAction } from "@/server/actions/setting-actions";
 import { updateProfileNameSchema } from "@/utils/schema-types/setting-schema-type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
-import { twoFactorAuthAction } from "@/server/actions/setting-profile-actions";
+import { twoFactorAuthAction } from "@/server/actions/setting-actions";
 import { twoFactorSchema } from "@/utils/schema-types/setting-schema-type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAction } from "next-safe-action/hooks";
