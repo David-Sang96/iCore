@@ -64,6 +64,13 @@
       "when": 1739250366322,
       "tag": "0008_odd_chronomancer",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1739762478690,
+      "tag": "0009_heavy_bloodstorm",
+      "breakpoints": true
     }
   ]
 }

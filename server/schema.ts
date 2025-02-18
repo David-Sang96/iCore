@@ -5,6 +5,8 @@ import {
   pgEnum,
   pgTable,
   primaryKey,
+  real,
+  serial,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
@@ -90,3 +92,12 @@ export const twoFactorAuthCode = pgTable(
   },
   (vt) => ({ compoundKey: primaryKey({ columns: [vt.id, vt.code] }) })
 );
+
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  // real to store floating point and ingeter to store whole number
+  price: real("price").notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+});
