@@ -54,9 +54,21 @@ const TipTap = ({ value }: TipTapProps) => {
     },
   });
 
-  // clear content after form is submitted
+  // make editor content sync with react hook form value
+  // useEffect(() => { <--  this will cause space problem in tiptap editor
+  //   if (editor) {
+  //     editor.commands.setContent(value);
+  //   }
+  // }, [value]);
+
+  // useEffect(() => {
+  //   if (editor?.isEmpty) {
+  //     editor.commands.setContent(value);
+  //   }
+  // }, [value]);
+
   useEffect(() => {
-    if (editor) {
+    if (editor && editor.getHTML() !== value) {
       editor.commands.setContent(value);
     }
   }, [value, editor]);

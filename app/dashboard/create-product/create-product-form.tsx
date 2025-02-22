@@ -19,18 +19,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { createOrUpdateProductAction } from "@/server/actions/product-actions";
+import {
+  createOrUpdateProductAction,
+  getOneProductAction,
+} from "@/server/actions/product-actions";
 import { productSchema } from "@/utils/schema-types/product-schema-type";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DollarSign } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import TipTap from "./tip-tap";
 
 const CreateProductForm = () => {
+  const isEditMode = useSearchParams().get("edit_id") || null;
   const router = useRouter();
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -56,6 +61,31 @@ const CreateProductForm = () => {
     },
   });
 
+  useEffect(() => {
+    if (isEditMode) {
+      const product = async () => {
+        const { error, success } = await getOneProductAction(
+          Number(isEditMode)
+        );
+        if (error) {
+          toast.error(error);
+          router.push("/dashboard/products");
+          return;
+        }
+        if (success) {
+          form.setValue("id", success.id);
+          form.setValue("title", success.title);
+          form.setValue("price", success.price);
+          form.setValue("description", success.description);
+        }
+      };
+      product();
+    } else {
+      form.reset();
+      form.setValue("description", "");
+    }
+  }, [isEditMode]);
+
   const onSubmit = ({
     title,
     description,
@@ -68,8 +98,10 @@ const CreateProductForm = () => {
   return (
     <Card>
       <CardHeader className="p-2.5 md:p-4 pb-0">
-        <CardTitle>Create Product</CardTitle>
-        <CardDescription>Create a new product</CardDescription>
+        <CardTitle>{isEditMode ? "Update" : "Create"} Product</CardTitle>
+        <CardDescription>
+          {isEditMode ? "Update" : "Create"} a new product
+        </CardDescription>
       </CardHeader>
       <CardContent className="p-2.5 md:p-4 md:pt-0">
         <Form {...form}>
@@ -123,30 +155,32 @@ const CreateProductForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="isChecked"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex items-center space-x-2 justify-end mt-2">
-                        <Checkbox
-                          id="terms"
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                        <label
-                          htmlFor="terms"
-                          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                          Stay on this page
-                        </label>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {!isEditMode && (
+                <FormField
+                  control={form.control}
+                  name="isChecked"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="flex items-center space-x-2 justify-end mt-2">
+                          <Checkbox
+                            id="terms"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                          <label
+                            htmlFor="terms"
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            Stay on this page
+                          </label>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </div>
 
             <Button
@@ -158,7 +192,7 @@ const CreateProductForm = () => {
               )}
               disabled={status === "executing" || !form.formState.isDirty}
             >
-              Create
+              {isEditMode ? "Update" : "Create"}
             </Button>
           </form>
         </Form>

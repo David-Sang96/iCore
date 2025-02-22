@@ -15,3 +15,7 @@ export const productSchema = z.object({
     .positive("Price must be a positive number"),
   isChecked: z.boolean().default(false).optional(),
 });
+
+export const deleteProductSchem = z.object({
+  id: z.number(),
+});

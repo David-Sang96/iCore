@@ -1,6 +1,11 @@
+"use server";
+
 import { actionClient } from "@/lib/safe-action";
 import { db } from "@/server";
-import { productSchema } from "@/utils/schema-types/product-schema-type";
+import {
+  deleteProductSchem,
+  productSchema,
+} from "@/utils/schema-types/product-schema-type";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import sanitizeHtml from "sanitize-html";
@@ -41,6 +46,35 @@ export const createOrUpdateProductAction = actionClient
       }
     } catch (error) {
       console.log(error);
+      return { error: "Something went wrong" };
+    }
+  });
+
+export const getOneProductAction = async (id: number) => {
+  try {
+    const product = await db.query.products.findFirst({
+      where: eq(products.id, id),
+    });
+    if (!product) return { error: "Product not found" };
+    return { success: product };
+  } catch (error) {
+    return { error: "Something went wrong" };
+  }
+};
+
+export const deleteProductAction = actionClient
+  .schema(deleteProductSchem)
+  .action(async ({ parsedInput: { id } }) => {
+    try {
+      const product = await db.query.products.findFirst({
+        where: eq(products.id, id),
+      });
+      if (!product) return { error: "Product not found" };
+      await db.delete(products).where(eq(products.id, product.id));
+
+      revalidatePath("/dashboard/products");
+      return { success: "Deleted successfully" };
+    } catch (error) {
       return { error: "Something went wrong" };
     }
   });
