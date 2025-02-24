@@ -1,4 +1,5 @@
 import { createId } from "@paralleldrive/cuid2";
+import { relations } from "drizzle-orm";
 import {
   boolean,
   integer,
@@ -101,3 +102,60 @@ export const products = pgTable("products", {
   price: real("price").notNull(),
   createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 });
+
+export const variants = pgTable("variants", {
+  id: serial("id").primaryKey(),
+  color: text("color").notNull(),
+  productType: text("productType").notNull(),
+  updated: timestamp("updated").defaultNow(),
+  // serial is meant for primary keys, not foreign keys. Use integer() instead
+  productId: integer("productId")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
+});
+
+export const variantTags = pgTable("variant_tags", {
+  id: serial("id").primaryKey(),
+  tag: text("tag").notNull(),
+  variantId: integer("veriantId").references(() => variants.id, {
+    onDelete: "cascade",
+  }),
+});
+
+export const variantImages = pgTable("variant_images", {
+  id: serial("id").primaryKey(),
+  image_url: text("image_url").notNull(),
+  name: text("name").notNull(),
+  size: text("size").notNull(),
+  order: real("order").notNull(),
+  variantId: integer("variantId")
+    .notNull()
+    .references(() => variants.id, { onDelete: "cascade" }),
+});
+
+export const productRelations = relations(products, ({ many }) => ({
+  variants: many(variants),
+}));
+
+export const variantRelations = relations(variants, ({ many, one }) => ({
+  product: one(products, {
+    fields: [variants.productId],
+    references: [products.id],
+  }),
+  variantImages: many(variantImages),
+  variantTags: many(variantTags),
+}));
+
+export const variantTagRelations = relations(variantTags, ({ one }) => ({
+  variant: one(variants, {
+    fields: [variantTags.variantId],
+    references: [variants.id],
+  }),
+}));
+
+export const variantImageRelations = relations(variantImages, ({ one }) => ({
+  variant: one(variants, {
+    fields: [variantImages.variantId],
+    references: [variants.id],
+  }),
+}));

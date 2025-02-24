@@ -6,9 +6,11 @@ import {
   deleteProductSchem,
   productSchema,
 } from "@/utils/schema-types/product-schema-type";
+import { variantSchema } from "@/utils/schema-types/variant-schema-type";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import sanitizeHtml from "sanitize-html";
+import { UTApi } from "uploadthing/server";
 import { products } from "../schema";
 
 export const createOrUpdateProductAction = actionClient
@@ -78,3 +80,17 @@ export const deleteProductAction = actionClient
       return { error: "Something went wrong" };
     }
   });
+
+export const createVariantAction = actionClient
+  .schema(variantSchema)
+  .action(async ({ parsedInput: {} }) => {});
+
+export const removeImageOnUploadThing = async (imageKey: string) => {
+  try {
+    const utapi = new UTApi();
+    await utapi.deleteFiles(imageKey);
+    return { success: "Image remove successfully" };
+  } catch (error) {
+    return { error: "Image removes failed on server" };
+  }
+};

@@ -1,5 +1,6 @@
 "use client";
 
+import VariantDialog from "@/components/dashboard/products/variant-dialog";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -8,10 +9,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { VariantsWithImagesAndTags } from "@/lib/infer-types";
 import { deleteProductAction } from "@/server/actions/product-actions";
 import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 import { ColumnDef, Row } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, CirclePlus, MoreHorizontal } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +25,7 @@ export type Product = {
   title: string;
   description: string;
   image: string;
-  variants: any;
+  variants: VariantsWithImagesAndTags;
 };
 
 const ActionsCell = ({ row }: { row: Row<Product> }) => {
@@ -85,7 +87,22 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "variants",
-    header: () => <div className="text-center">Variants</div>,
+    header: () => <div className="text-start">Variants</div>,
+    cell({ row }) {
+      const variants = row.getValue("variants") as VariantsWithImagesAndTags[];
+      return (
+        <div>
+          {variants.map((v) => (
+            <div key={v.id}>
+              <p>{v.color}</p>
+            </div>
+          ))}
+          <VariantDialog editMode={false}>
+            <CirclePlus className="size-5 text-gray-500 hover:text-black duration-200 cursor-pointer" />
+          </VariantDialog>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "title",

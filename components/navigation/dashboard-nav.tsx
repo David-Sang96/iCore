@@ -25,12 +25,12 @@ const DashboardNavigationBar = ({ routes }: DashboardNavigationBarProps) => {
           <span
             className={cn(
               "flex items-center text-sm hover:text-primary",
-              route.path === pathName && "text-primary font-medium"
+              route.path === pathName &&
+                "text-white bg-primary px-1 py-0.5 rounded-sm font-medium hover:text-white"
             )}
           >
             {route.icon}{" "}
-            {editMode ? route.name.replace("Create", "Update") : route.name}{" "}
-            {routes.length - 1 !== idx && "|"}
+            {editMode ? route.name.replace("Create", "Update") : route.name}
           </span>
         </Link>
       ))}

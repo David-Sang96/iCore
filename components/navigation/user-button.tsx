@@ -16,13 +16,11 @@ import {
 } from "../ui/dropdown-menu";
 
 export const getFirstLetterInEachWord = (name: string) => {
-  const everyFirstCapitalLetters = name
+  return name
     .split(" ")
+    .filter((item) => item.length > 0)
     .map((item) => item.charAt(0).toUpperCase())
-    .join("")
-    .slice(0, 2);
-
-  return everyFirstCapitalLetters;
+    .join("");
 };
 
 const UserButton = ({ user }: Session) => {

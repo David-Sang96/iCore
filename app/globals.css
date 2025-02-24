@@ -99,6 +99,18 @@ html body[data-scroll-locked] {
   background: #7c3aed;
 }
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 /* modify uploading button  */
 [data-ut-element="button"][data-state="uploading"]::after {
   @apply bg-primary/90;

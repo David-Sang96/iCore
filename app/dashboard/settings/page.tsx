@@ -3,6 +3,7 @@ import ProfileLogoutPage from "@/components/dashboard/settings/profile-logout";
 import ProfileResetPasswordPage from "@/components/dashboard/settings/reset-password";
 import SettingsCard from "@/components/dashboard/settings/setting-card";
 import TwoFactorAuthenticationPage from "@/components/dashboard/settings/two-factor";
+import { cn } from "@/lib/utils";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
 
@@ -23,7 +24,9 @@ const SettingsPage = async () => {
             <ProfileResetPasswordPage email={session.user.email!} />
           </>
         )}
-        <ProfileLogoutPage />
+        <div className={cn("", session.user.isOAuth && "h-full mt-16")}>
+          <ProfileLogoutPage />
+        </div>
       </section>
     </SettingsCard>
   );
