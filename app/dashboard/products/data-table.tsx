@@ -104,8 +104,9 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center font-medium"
                 >
-                  There is no title with the letter{" "}
-                  {String(columnFilters[0].value)}
+                  {columnFilters[0]?.value !== undefined
+                    ? `There is no title with the letter  ${String(columnFilters[0]?.value)}`
+                    : "There is no product"}
                 </TableCell>
               </TableRow>
             )}

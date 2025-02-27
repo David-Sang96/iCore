@@ -1,8 +1,11 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { variantSchema } from "@/utils/schema-types/variant-schema-type";
 import { X } from "lucide-react";
 import { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { z } from "zod";
 
 type TagsInputProps = {
   values: string[];
@@ -11,10 +14,17 @@ type TagsInputProps = {
 
 const TagsInput = ({ values = [], handleOnChange }: TagsInputProps) => {
   const [tag, setTag] = useState("");
+  const { setError } = useFormContext<z.infer<typeof variantSchema>>();
 
   const addNewTag = () => {
     if (!tag.trim()) return;
-    if (tag) {
+    if (tag && tag.length < 3) {
+      setError("tags", {
+        type: "validate",
+        message: "Please enter at least 3 characters",
+      });
+      return;
+    } else {
       const newTag = new Set([...values, tag.trim()]);
       handleOnChange(Array.from(newTag));
       setTag("");

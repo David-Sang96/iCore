@@ -117,7 +117,7 @@ export const variants = pgTable("variants", {
 export const variantTags = pgTable("variant_tags", {
   id: serial("id").primaryKey(),
   tag: text("tag").notNull(),
-  variantId: integer("veriantId").references(() => variants.id, {
+  variantId: integer("variantId").references(() => variants.id, {
     onDelete: "cascade",
   }),
 });
@@ -128,6 +128,7 @@ export const variantImages = pgTable("variant_images", {
   name: text("name").notNull(),
   size: text("size").notNull(),
   order: real("order").notNull(),
+  key: text("key").notNull(),
   variantId: integer("variantId")
     .notNull()
     .references(() => variants.id, { onDelete: "cascade" }),

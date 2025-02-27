@@ -17,12 +17,12 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-const VariantImages = () => {
+const VariantImagesUploader = () => {
   const { control, getValues, setError } =
     useFormContext<z.infer<typeof variantSchema>>();
   const { fields, append, remove, update } = useFieldArray({
     control,
-    name: "variantImages",
+    name: "images",
   });
 
   const handleRemoveImage = async (
@@ -43,7 +43,7 @@ const VariantImages = () => {
     <>
       <FormField
         control={control}
-        name="variantImages"
+        name="images"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Upload Image</FormLabel>
@@ -51,25 +51,26 @@ const VariantImages = () => {
             <FormControl>
               <UploadDropzone
                 endpoint={"variantImageUploader"}
-                className="ut-button:bg-primary ut-button:text-sm h-52 ut-allowed-content:text-primary ut-label:text-primary ut-upload-icon:text-primary/70 cursor-pointer"
+                className="ut-button:bg-primary ut-button:text-sm ut-button:py-2 ut-button:px-2 ut-label:text-sm ut-upload-icon:size-5 ut-upload-icon:text-primary/70 h-32 w-full ut-label:text-primary ut-allowed-content:text-primary cursor-pointer"
                 onBeforeUploadBegin={(files) => {
                   files.forEach((file) => {
                     append({
                       name: file.name,
                       size: file.size,
                       url: URL.createObjectURL(file),
+                      key: "",
                     });
                   });
                   return files;
                 }}
                 onUploadError={(err) => {
-                  setError("variantImages", {
+                  setError("images", {
                     type: "validate",
                     message: err.message,
                   });
                 }}
                 onClientUploadComplete={(uploadedData) => {
-                  const variantImages = getValues("variantImages");
+                  const variantImages = getValues("images");
                   variantImages.forEach((variantImage, idx) => {
                     if (variantImage.url.startsWith("blob:")) {
                       const uploadedImage = uploadedData.find(
@@ -119,4 +120,4 @@ const VariantImages = () => {
   );
 };
 
-export default VariantImages;
+export default VariantImagesUploader;

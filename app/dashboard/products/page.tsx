@@ -4,17 +4,18 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
 const ProductsPage = async () => {
-  const data = await db.query.products.findMany({
+  const products = await db.query.products.findMany({
+    with: { variants: { with: { variantImages: true, variantTags: true } } },
     orderBy: (posts, { desc }) => [desc(posts.id)],
   });
 
-  const productData = data.map((item) => ({
-    id: item.id,
-    title: item.title,
-    description: item.description,
-    price: item.price,
-    image: image.src,
-    variants: [],
+  const productData = products.map((product) => ({
+    id: product.id,
+    title: product.title,
+    description: product.description,
+    price: product.price,
+    image: product.variants[0]?.variantImages[0]?.image_url ?? image.src,
+    variants: product.variants,
   }));
   return <DataTable columns={columns} data={productData} />;
 };
