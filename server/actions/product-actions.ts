@@ -69,15 +69,25 @@ export const getOneProductAction = async (id: number) => {
 
 export const deleteProductAction = actionClient
   .schema(deleteProductSchem)
-  .action(async ({ parsedInput: { id } }) => {
+  .action(async ({ parsedInput: { id, imageKeys } }) => {
+    console.log(imageKeys);
     try {
       const product = await db.query.products.findFirst({
         where: eq(products.id, id),
       });
       if (!product) return { error: "Product not found" };
+
+      // Delete images concurrently if `key` has image keys
+      if (imageKeys.length) {
+        await Promise.all(
+          imageKeys.map(({ key }) => removeImageOnUploadThing(key))
+        );
+      }
+
       await db.delete(products).where(eq(products.id, product.id));
 
       revalidatePath("/dashboard/products");
+      revalidatePath("/");
       return { success: "Deleted successfully" };
     } catch (error) {
       return { error: "Something went wrong" };
@@ -141,6 +151,7 @@ export const createOrUpdateVariantAction = actionClient
             .values(tags.map((tag) => ({ tag, variantId })));
 
           revalidatePath("/dashboard/products");
+          revalidatePath("/");
           return { success: `${product.title} variant updated successfully` };
         }
 
@@ -173,6 +184,7 @@ export const createOrUpdateVariantAction = actionClient
           );
 
           revalidatePath("/dashboard/products");
+          revalidatePath("/");
           return { success: `${product.title} variant created successfully` };
         }
         return;

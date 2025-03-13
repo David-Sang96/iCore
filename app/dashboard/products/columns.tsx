@@ -49,6 +49,11 @@ const ActionsCell = ({ row }: { row: Row<Product> }) => {
     },
   });
   const product = row.original;
+
+  const imageKeys = product.variants
+    .flatMap((item) => item.variantImages)
+    .flatMap((item) => ({ key: item.key }));
+
   return (
     <>
       <AlertDialog open={open} onOpenChange={setOpen}>
@@ -66,7 +71,10 @@ const ActionsCell = ({ row }: { row: Row<Product> }) => {
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                execute({ id: product.id });
+                execute({
+                  id: product.id,
+                  imageKeys,
+                });
                 setOpen(false);
               }}
               className="bg-red-600 text-white hover:bg-red-500"

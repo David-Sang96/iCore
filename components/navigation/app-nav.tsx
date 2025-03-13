@@ -8,7 +8,7 @@ const AppNav = async () => {
   return (
     <nav className="flex items-center justify-between py-1.5">
       <NavLogo />
-      <UserButton user={sessions?.user} expires={sessions?.expires!} />
+      <UserButton user={sessions?.user ?? null} />
     </nav>
   );
 };

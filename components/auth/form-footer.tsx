@@ -7,7 +7,7 @@ type FormFooterProps = {
 
 const FormFooter = ({ footerLabel, footerHref }: FormFooterProps) => {
   return (
-    <div className=" text-end text-[#884DEE] hover:underline hover:underline-offset-4 font-medium text-sm">
+    <div className=" text-end  hover:underline hover:underline-offset-4 font-medium text-sm">
       <Link href={footerHref}>{footerLabel}</Link>
     </div>
   );

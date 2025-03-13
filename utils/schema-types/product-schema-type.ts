@@ -18,4 +18,5 @@ export const productSchema = z.object({
 
 export const deleteProductSchem = z.object({
   id: z.number(),
+  imageKeys: z.array(z.object({ key: z.string() })),
 });

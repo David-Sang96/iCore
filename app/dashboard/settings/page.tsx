@@ -13,7 +13,12 @@ const SettingsPage = async () => {
 
   return (
     <SettingsCard title="Settings" description="Manage your account settings">
-      <section className="grid gap-4 md:grid-cols-2">
+      <section
+        className={cn(
+          "grid gap-4 md:grid-cols-2",
+          session.user.isOAuth && "flex flex-col gap-3"
+        )}
+      >
         <ProfileCard session={session} />
         {!session.user.isOAuth && (
           <>
@@ -24,7 +29,7 @@ const SettingsPage = async () => {
             <ProfileResetPasswordPage email={session.user.email!} />
           </>
         )}
-        <div className={cn("", session.user.isOAuth && "h-full mt-16")}>
+        <div className={cn("", session.user.isOAuth && "h-full")}>
           <ProfileLogoutPage />
         </div>
       </section>

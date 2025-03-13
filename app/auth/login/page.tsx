@@ -121,7 +121,7 @@ const LoginPage = () => {
                   </FormItem>
                 )}
               />
-              <div className=" text-end text-[#884DEE] hover:underline hover:underline-offset-4 text-sm">
+              <div className=" text-end hover:underline hover:underline-offset-4 text-sm">
                 <Link href={"/auth/reset-email"}>Forget password?</Link>
               </div>
             </>
