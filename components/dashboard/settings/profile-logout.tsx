@@ -8,10 +8,7 @@ import SettingsCard from "./setting-card";
 const ProfileLogoutPage = () => {
   return (
     <SettingsCard>
-      <Button
-        className="bg-red-600 hover:bg-red-500 "
-        onClick={() => signOut()}
-      >
+      <Button variant={"destructive"} onClick={() => signOut()}>
         <LogOutIcon aria-hidden="true" />
         Logout
       </Button>

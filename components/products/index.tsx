@@ -15,7 +15,7 @@ const Products = ({ productsWithVariants }: ProductsProps) => {
         ({ id,price,title,variants  }) => (      
           variants.length > 0 &&  <Link
           className="bg-white p-3 rounded-md shadow-lg hover:scale-105 duration-300 ease-out"
-           href={`/product/${id}?variantId=${variants[0].id}&type=${variants[0].productType}&image=${variants[0].variantImages[0].image_url}&title=${title}&price=${price}&color=${encodeURIComponent(variants[0].color) }`}
+           href={`/product/${id}?variantId=${variants[0].id}&productId=${id}&type=${variants[0].productType}&image=${variants[0].variantImages[0].image_url}&title=${title}&price=${price}&color=${encodeURIComponent(variants[0].color) }`}
            key={id}
          >
            <Image

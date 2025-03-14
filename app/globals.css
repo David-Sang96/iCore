@@ -58,13 +58,13 @@
     --chart-5: 340 75% 55%;
   }
 }
-
+/* 
 html body[data-scroll-locked] {
   padding-inline: 0px !important;
   margin: auto !important;
-}
+} 
 
-@media screen and (min-width: 768px) {
+ @media screen and (min-width: 768px) {
   html body[data-scroll-locked] {
     padding-inline: 8px !important;
   }
@@ -74,7 +74,7 @@ html body[data-scroll-locked] {
   html body[data-scroll-locked] {
     padding-inline: 4px !important;
   }
-}
+} */
 
 /* For the entire page */
 ::-webkit-scrollbar {

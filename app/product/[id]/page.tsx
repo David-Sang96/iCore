@@ -1,5 +1,6 @@
 export const revalidate = 0; // Always fetch fresh data
 
+import AddToCart from "@/components/cart/add-to-cart";
 import ColorTag from "@/components/products/color-tag";
 import ImageSlider from "@/components/products/image-slider";
 import VariantPicker from "@/components/products/variant-picker";
@@ -55,7 +56,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
             />
             <hr className="h-0.5 bg-primary/20 mb-2" />
             <div
-              className="leading-8 max-sm:text-sm"
+              className="leading-8"
               dangerouslySetInnerHTML={{
                 __html: productWithVariant.description,
               }}
@@ -75,6 +76,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
                 />
               ))}
             </div>
+            <AddToCart />
           </div>
         </section>
       )}

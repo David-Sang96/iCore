@@ -16,7 +16,8 @@ const ColorTag = ({ productType }: ColorTagProps) => {
     <p
       className={cn(
         "text-xs mt-2 mb-3 w-fit p-1.5 rounded-md font-medium text-white",
-        selectedColorType === "Gold" && "text-primary"
+        selectedColorType === "Gold" ||
+          (selectedColorType === "Blue" && "text-primary")
       )}
       style={{ background: selectedColor }}
     >
