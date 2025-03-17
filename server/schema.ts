@@ -26,6 +26,7 @@ export const users = pgTable("user", {
   image: text("image"),
   isTwoFactorEnabled: boolean("isTwoFactorEnabled").default(false),
   role: RoleEnum("roles").default("user"),
+  customerId: text("customerId"),
 });
 
 export const accounts = pgTable(
@@ -134,6 +135,31 @@ export const variantImages = pgTable("variant_images", {
     .references(() => variants.id, { onDelete: "cascade" }),
 });
 
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  total: real("total").notNull(),
+  status: text("status").notNull(),
+  created: timestamp("created").defaultNow(),
+  receiptURL: text("receiptURL"),
+});
+
+export const orderProduct = pgTable("orderProduct", {
+  id: serial("id").primaryKey(),
+  orderId: integer("orderId")
+    .notNull()
+    .references(() => orders.id, { onDelete: "cascade" }),
+  quantity: integer("quantity").notNull(),
+  variantId: integer("variantId")
+    .notNull()
+    .references(() => variants.id, { onDelete: "cascade" }),
+  productId: integer("productId")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
+});
+
 export const productRelations = relations(products, ({ many }) => ({
   variants: many(variants),
 }));
@@ -157,6 +183,33 @@ export const variantTagRelations = relations(variantTags, ({ one }) => ({
 export const variantImageRelations = relations(variantImages, ({ one }) => ({
   variant: one(variants, {
     fields: [variantImages.variantId],
+    references: [variants.id],
+  }),
+}));
+
+export const userRelations = relations(users, ({ many }) => ({
+  orders: many(orders),
+}));
+
+export const orderRelations = relations(orders, ({ one, many }) => ({
+  user: one(users, {
+    fields: [orders.userId],
+    references: [users.id],
+  }),
+  orderProduct: many(orderProduct),
+}));
+
+export const orderProductRelations = relations(orderProduct, ({ one }) => ({
+  order: one(orders, {
+    fields: [orderProduct.id],
+    references: [orders.id],
+  }),
+  product: one(products, {
+    fields: [orderProduct.productId],
+    references: [products.id],
+  }),
+  variant: one(variants, {
+    fields: [orderProduct.variantId],
     references: [variants.id],
   }),
 }));

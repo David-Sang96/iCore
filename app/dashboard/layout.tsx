@@ -13,22 +13,12 @@ const publicRoutes = [
   {
     name: "Orders",
     path: "/dashboard/orders",
-    icon: (
-      <Truck
-        aria-hidden="true"
-        style={{ width: 21, height: 21, marginRight: 3 }}
-      />
-    ),
+    icon: <Truck aria-hidden="true" size={20} />,
   },
   {
     name: "Settings",
     path: "/dashboard/settings",
-    icon: (
-      <Settings
-        aria-hidden="true"
-        style={{ width: 21, height: 21, marginRight: 3 }}
-      />
-    ),
+    icon: <Settings aria-hidden="true" size={19} />,
   },
 ];
 
@@ -36,32 +26,17 @@ const adminRoutes = [
   {
     name: "Analytics",
     path: "/dashboard/analytics",
-    icon: (
-      <ChartNoAxesCombined
-        aria-hidden="true"
-        style={{ width: 21, height: 21, marginRight: 3 }}
-      />
-    ),
+    icon: <ChartNoAxesCombined aria-hidden="true" size={20} />,
   },
   {
     name: "Create Product",
     path: "/dashboard/create-product",
-    icon: (
-      <PackagePlus
-        aria-hidden="true"
-        style={{ width: 21, height: 21, marginRight: 3 }}
-      />
-    ),
+    icon: <PackagePlus aria-hidden="true" size={20} />,
   },
   {
     name: "Products",
     path: "/dashboard/products",
-    icon: (
-      <Package
-        aria-hidden="true"
-        style={{ width: 21, height: 21, marginRight: 3 }}
-      />
-    ),
+    icon: <Package aria-hidden="true" size={20} />,
   },
 ];
 

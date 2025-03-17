@@ -23,6 +23,7 @@ const CartItem = () => {
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const increaseQuantity = useCartStore((state) => state.increaseQuantity);
   const decreaseQuantity = useCartStore((state) => state.decreaseQuantity);
+  const setOrderStatus = useCartStore((state) => state.setOrderStatus);
 
   const totalPrice = cart.reduce(
     (total, item) => total + Number(item.price) * item.variant.quantity,
@@ -72,7 +73,7 @@ const CartItem = () => {
                     <div className="flex items-center gap-1.5 sm:gap-3">
                       <button
                         className=" opacity-0 group-hover:opacity-100 duration-300 transition-opacity"
-                        onClick={() => decreaseQuantity({ ...item })}
+                        onClick={() => decreaseQuantity(item.variant.variantId)}
                       >
                         <MinusIcon
                           aria-label="remove"
@@ -82,7 +83,7 @@ const CartItem = () => {
                       {item.variant.quantity}
                       <button
                         className=" opacity-0 group-hover:opacity-100 duration-300 transition-opacity"
-                        onClick={() => increaseQuantity({ ...item })}
+                        onClick={() => increaseQuantity(item.variant.variantId)}
                       >
                         <PlusIcon
                           aria-label="add"
@@ -115,7 +116,12 @@ const CartItem = () => {
             </TableFooter>
           </Table>
           <div className="mt-4 text-end space-y-1.5 md:space-x-3 ">
-            <Button className="max-md:w-full w-2/12">Place Order</Button>
+            <Button
+              className="max-md:w-full w-2/12"
+              onClick={() => setOrderStatus("Checkout")}
+            >
+              Place Order
+            </Button>
             <ClearBtn>
               <Button variant={"destructive"} className="max-md:w-full w-2/12">
                 Clear All

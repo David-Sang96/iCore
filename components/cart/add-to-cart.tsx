@@ -42,13 +42,13 @@ const AddToCart = () => {
     <div className="flex items-center mt-5 justify-between max-sm:flex-col max-sm:gap-5">
       <div className="flex items-center w-2/3 text-center gap-1 max-sm:text-sm max-sm:w-full">
         <Button size={"sm"} onClick={removeQuantity} disabled={quantity === 1}>
-          <Minus style={{ width: 15, height: 15 }} />
+          <Minus />
         </Button>
         <div className="bg-primary text-white py-1.5 rounded-md w-full text-sm">
           Quantity: {quantity}
         </div>
         <Button size={"sm"} onClick={addQuantity}>
-          <Plus style={{ width: 15, height: 15 }} />
+          <Plus />
         </Button>
       </div>
       <Button className="max-sm:w-full sm:mb-1" onClick={addToCartHandler}>
