@@ -7,7 +7,6 @@ import { Box, Minus, ShoppingCart, Ticket } from "lucide-react";
 const CartStatus = () => {
   const orderStatus = useCartStore((state) => state.orderStatus);
   const setStatus = useCartStore((state) => state.setOrderStatus);
-  console.log(orderStatus);
 
   return (
     <div className="flex items-center justify-center gap-4 py-3">

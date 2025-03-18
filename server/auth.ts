@@ -8,6 +8,7 @@ import Google from "next-auth/providers/google";
 
 import { db } from "@/server";
 import { loginSchema } from "@/utils/schema-types/auth-schema-type";
+import Stripe from "stripe";
 import { accounts, users } from "./schema";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -78,6 +79,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.image = token.image as string;
       }
       return session;
+    },
+  },
+  events: {
+    createUser: async ({ user }) => {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+        apiVersion: "2025-02-24.acacia",
+      });
+      const customer = await stripe.customers.create({
+        email: user.email!,
+        name: user.name!,
+      });
+      await db
+        .update(users)
+        .set({ customerId: customer.id })
+        .where(eq(users.id, user.id!));
     },
   },
 });

@@ -146,7 +146,7 @@ const CreateProductForm = () => {
                           placeholder="T-shirt"
                           {...field}
                           type="number"
-                          step={100}
+                          // step={100}
                           min={0}
                         />
                       </div>

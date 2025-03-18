@@ -47,7 +47,7 @@ const DashboardLayout = async ({
   const routes =
     session?.user.role === "admin"
       ? [...adminRoutes, ...publicRoutes]
-      : adminRoutes;
+      : publicRoutes;
 
   return (
     <>
