@@ -10,14 +10,14 @@ const stripe = stripInit();
 
 const Payment = () => {
   const cart = useCartStore((state) => state.cart);
-  const setOrderStatus = useCartStore((state) => state.setOrderStatus);
+  const setCartPosition = useCartStore((state) => state.setCartPosition);
   const totalPrice = cart.reduce(
     (total, item) => total + Number(item.price) * item.variant.quantity,
     0
   );
 
   useEffect(() => {
-    if (cart.length === 0) setOrderStatus("Order");
+    if (cart.length === 0) setCartPosition("Order");
   }, []);
 
   return (

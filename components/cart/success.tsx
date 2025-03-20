@@ -2,17 +2,20 @@
 
 import { useCartStore } from "@/store/cart-store";
 import { PartyPopper } from "lucide-react";
+import Link from "next/link";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
 
 const Success = () => {
-  const setOrderStatus = useCartStore((state) => state.setOrderStatus);
   const cart = useCartStore((state) => state.cart);
+  const setCartPosition = useCartStore((state) => state.setCartPosition);
+  const setIsOpen = useCartStore((state) => state.setIsOpen);
 
   useEffect(() => {
-    setTimeout(() => setOrderStatus("Order"), 5000);
-
-    if (cart.length > 0) setOrderStatus("Order");
+    if (cart.length === 0) {
+      setTimeout(() => setCartPosition("Order"), 5000);
+    }
+    if (cart.length > 0) setCartPosition("Order");
   }, []);
 
   return (
@@ -33,7 +36,9 @@ const Success = () => {
         />
       </div>
       <p className="text-sm md:text-base pb-8 ">Thank you for your purchase.</p>
-      <Button>View Orders</Button>
+      <Button asChild variant={"outline"} onClick={setIsOpen}>
+        <Link href={"/dashboard/orders"}>View Orders</Link>
+      </Button>
     </section>
   );
 };

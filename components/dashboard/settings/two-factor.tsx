@@ -83,7 +83,7 @@ const TwoFactorAuthenticationPage = ({
             type="submit"
             disabled={status === "executing"}
             className={cn(
-              "w-full mt-3 md:mt-4",
+              "w-full mt-3 md:mt-10",
               status === "executing" && "animate-pulse",
               isTwoFactorEnable ? "bg-red-600 hover:bg-red-500" : "bg-primary"
             )}

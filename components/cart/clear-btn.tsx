@@ -19,6 +19,12 @@ type ClearBtnProp = {
 
 export function ClearBtn({ children }: ClearBtnProp) {
   const clearCart = useCartStore((state) => state.clearCart);
+  const setIsOpen = useCartStore((state) => state.setIsOpen);
+
+  const handleClear = () => {
+    clearCart();
+    setIsOpen();
+  };
 
   return (
     <AlertDialog>
@@ -33,7 +39,7 @@ export function ClearBtn({ children }: ClearBtnProp) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={clearCart}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={handleClear}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

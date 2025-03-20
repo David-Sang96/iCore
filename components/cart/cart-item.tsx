@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import formatCurrency from "@/lib/format-currency";
 import { MinusIcon, PlusIcon, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { ClearBtn } from "./clear-btn";
 
@@ -23,7 +24,8 @@ const CartItem = () => {
   const removeFromCart = useCartStore((state) => state.removeFromCart);
   const increaseQuantity = useCartStore((state) => state.increaseQuantity);
   const decreaseQuantity = useCartStore((state) => state.decreaseQuantity);
-  const setOrderStatus = useCartStore((state) => state.setOrderStatus);
+  const setCartPosition = useCartStore((state) => state.setCartPosition);
+  const setIsOpen = useCartStore((state) => state.setIsOpen);
 
   const totalPrice = cart.reduce(
     (total, item) => total + Number(item.price) * item.variant.quantity,
@@ -41,12 +43,13 @@ const CartItem = () => {
             height={120}
             placeholder="blur"
           />
-          <p className="text-center text-lg">
-            Your cart is empty. Start shopping!
-          </p>
+          <p className="text-center text-lg pb-3">Your cart is empty.</p>
+          <Button asChild variant={"outline"} onClick={setIsOpen}>
+            <Link href={"/"}>start shopping</Link>
+          </Button>
         </div>
       ) : (
-        <div>
+        <div className="max-h-[40vh] overflow-y-auto  no-scrollbar">
           <Table>
             <TableHeader>
               <TableRow>
@@ -59,7 +62,7 @@ const CartItem = () => {
             </TableHeader>
             <TableBody>
               {cart.map((item) => (
-                <TableRow key={item.id}>
+                <TableRow key={item.variant.variantId}>
                   <TableCell className="font-medium">{item.title}</TableCell>
                   <TableCell>
                     <Image
@@ -73,7 +76,9 @@ const CartItem = () => {
                     <div className="flex items-center gap-1.5 sm:gap-3">
                       <button
                         className=" opacity-0 group-hover:opacity-100 duration-300 transition-opacity"
-                        onClick={() => decreaseQuantity(item.variant.variantId)}
+                        onClick={() => {
+                          decreaseQuantity(item.variant.variantId);
+                        }}
                       >
                         <MinusIcon
                           aria-label="remove"
@@ -118,7 +123,7 @@ const CartItem = () => {
           <div className="mt-4 text-end space-y-1.5 md:space-x-3 ">
             <Button
               className="max-md:w-full w-2/12"
-              onClick={() => setOrderStatus("Checkout")}
+              onClick={() => setCartPosition("Checkout")}
             >
               Place Order
             </Button>

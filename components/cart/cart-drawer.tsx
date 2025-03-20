@@ -4,6 +4,7 @@ import {
   Drawer,
   DrawerContent,
   DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useCartStore } from "@/store/cart-store";
@@ -18,19 +19,21 @@ type CartDrawerProps = {
 };
 
 const CartDrawer = ({ children }: CartDrawerProps) => {
-  const cartStatus = useCartStore((state) => state.orderStatus);
+  const cartPosition = useCartStore((state) => state.cartPosition);
   const cart = useCartStore((state) => state.cart);
+  const open = useCartStore((state) => state.isOpen);
+  const setIsOpen = useCartStore((state) => state.setIsOpen);
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={setIsOpen}>
       <DrawerTrigger className="ring-0">{children}</DrawerTrigger>
-      <DrawerContent className="xl:w-4/5 2xl:w-3/5 lg:mx-auto">
+      <DrawerContent className="xl:w-4/5 2xl:w-3/5 lg:mx-auto pb-5">
         <DrawerHeader>
-          {/* <DrawerTitle>Products in your cart</DrawerTitle> */}
+          <DrawerTitle>Products in your cart</DrawerTitle>
           {cart.length > 0 && <CartStatus />}
-          {cartStatus === "Order" && <CartItem />}
-          {cartStatus === "Checkout" && <Payment />}
-          {cartStatus === "Success" && <Success />}
+          {cartPosition === "Order" && <CartItem />}
+          {cartPosition === "Checkout" && <Payment />}
+          {cartPosition === "Success" && <Success />}
         </DrawerHeader>
       </DrawerContent>
     </Drawer>

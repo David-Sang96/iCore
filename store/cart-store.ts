@@ -19,7 +19,8 @@ type Status = "Order" | "Checkout" | "Success";
 
 export type CartType = {
   cart: CartItem[];
-  orderStatus: Status;
+  cartPosition: Status;
+  isOpen: boolean;
 };
 
 type Actions = {
@@ -27,18 +28,21 @@ type Actions = {
   removeFromCart: (id: number) => void;
   decreaseQuantity: (variantId: number) => void;
   increaseQuantity: (variantId: number) => void;
-  setOrderStatus: (status: Status) => void;
+  setCartPosition: (status: Status) => void;
   clearCart: () => void;
+  setIsOpen: () => void;
 };
 
 export const useCartStore = create<CartType & Actions>()(
   persist(
     immer((set) => ({
       cart: [],
-      orderStatus: "Order",
-      setOrderStatus: (status) =>
+      isOpen: false,
+      setIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
+      cartPosition: "Order",
+      setCartPosition: (posttion) =>
         set((state) => {
-          state.orderStatus = status;
+          state.cartPosition = posttion;
         }),
       addToCart: (product) =>
         set((state) => {
