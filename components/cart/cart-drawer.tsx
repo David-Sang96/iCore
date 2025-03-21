@@ -27,9 +27,9 @@ const CartDrawer = ({ children }: CartDrawerProps) => {
   return (
     <Drawer open={open} onOpenChange={setIsOpen}>
       <DrawerTrigger className="ring-0">{children}</DrawerTrigger>
-      <DrawerContent className="xl:w-4/5 2xl:w-3/5 lg:mx-auto pb-5">
-        <DrawerHeader>
-          <DrawerTitle>Products in your cart</DrawerTitle>
+      <DrawerContent className="xl:w-4/5 2xl:w-3/5 lg:mx-auto pb-3 ">
+        <DrawerHeader className="pt-0 px-3">
+          <DrawerTitle>Items in your cart</DrawerTitle>
           {cart.length > 0 && <CartStatus />}
           {cartPosition === "Order" && <CartItem />}
           {cartPosition === "Checkout" && <Payment />}

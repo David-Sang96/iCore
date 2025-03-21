@@ -56,7 +56,7 @@ const VariantDialog = ({
         "iPad",
         "MacBook",
         "Apple Watch",
-        "Android-Phone",
+        "Android Phone",
         "Accessories",
         "Cover",
       ],

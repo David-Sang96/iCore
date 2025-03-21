@@ -1,16 +1,36 @@
+"use client";
+
 import formatCurrency from "@/lib/format-currency";
 import { ProductsWithVariantsAndImagesAndTags } from "@/lib/infer-types";
 import Image from "next/image";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type ProductsProps = {
   productsWithVariants: ProductsWithVariantsAndImagesAndTags[];
 };
 
 const Products = ({ productsWithVariants }: ProductsProps) => {
+  const [filteredProducts, setFilteredProducts] = useState<
+    ProductsWithVariantsAndImagesAndTags[]
+  >([]);
+  const params = useSearchParams();
+  const tagName = params.get("tag") || "accessories";
+
+  useEffect(() => {
+    const filteredItems = productsWithVariants.filter((item) =>
+      item.variants[0].variantTags.find(
+        (v) => v.tag.toLowerCase() === tagName.toLowerCase().replace(/-/g, " ")
+      )
+    );
+
+    setFilteredProducts(filteredItems);
+  }, [tagName]);
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {productsWithVariants.map(
+      {filteredProducts.map(
         // prettier-ignore
         ({ id,price,title,variants  }) => (      
           variants.length > 0 &&  <Link
