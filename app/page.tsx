@@ -1,4 +1,5 @@
 import Products from "@/components/products";
+import SearchBox from "@/components/products/search-box";
 import { db } from "@/server";
 
 export default async function Home() {
@@ -10,9 +11,9 @@ export default async function Home() {
   // console.dir(productsWithVariants, { depth: null });
 
   return (
-    <section className="">
-      <h2>Nav</h2>
+    <main className="space-y-4">
+      <SearchBox productsWithVariants={productsWithVariants} />
       <Products productsWithVariants={productsWithVariants} />
-    </section>
+    </main>
   );
 }
