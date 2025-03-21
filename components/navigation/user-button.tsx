@@ -1,7 +1,6 @@
 "use client";
 
 import { LogIn, LogOut, Settings, Truck } from "lucide-react";
-import { User } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,7 +22,7 @@ export const getFirstLetterInEachWord = (name: string) => {
     .join("");
 };
 
-const UserButton = ({ user }: { user: User | null }) => {
+const UserButton = ({ user }: { user: any }) => {
   const router = useRouter();
 
   if (!user)
@@ -70,7 +69,9 @@ const UserButton = ({ user }: { user: User | null }) => {
               style={{ width: 21, height: 21, marginRight: 3 }}
               className="group-hover:translate-x-1 duration-500 group-hover:text-primary"
             />
-            <span className="text-sm group-hover:text-primary">My Orders</span>
+            <span className="text-sm group-hover:text-primary">
+              {user.role === "admin" ? "View Orders" : "My Orders"}
+            </span>
           </DropdownMenuItem>
           <DropdownMenuItem
             className="group hover:bg-primary/10 cursor-pointer "

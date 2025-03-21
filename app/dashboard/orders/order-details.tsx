@@ -133,8 +133,8 @@ const OrderDetails = ({ id, total }: OrderDetailsPros) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {product.orderProduct.map(({ product, variant, quantity, id }) => (
-              <TableRow key={id}>
+            {product.orderProduct.map(({ product, variant, quantity }) => (
+              <TableRow key={variant.id}>
                 <TableCell>
                   <Image
                     alt={product.title}

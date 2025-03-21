@@ -1,11 +1,11 @@
 "use client";
 
+import OrderDetails from "@/app/dashboard/orders/order-details";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ArrowUpDown } from "lucide-react";
-import OrderDetails from "./order-details";
 
 export type Payment = {
   id: number;
@@ -15,7 +15,7 @@ export type Payment = {
   receiptURL: string;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const userColumns: ColumnDef<Payment>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -73,7 +73,7 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <div
           className={cn(
-            " font-medium mx-auto text-xs w-fit text-white px-2 py-1 rounded",
+            " font-medium mx-auto text-xs w-fit text-white px-2 py-1 rounded ",
             orderStatus === "PENDING"
               ? "bg-blue-500 "
               : orderStatus === "COMPLETE"
@@ -86,10 +86,9 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
   },
-
   {
-    accessorKey: "action",
-    header: () => <div className="text-end pe-5">Actions</div>,
+    accessorKey: "details",
+    header: () => <div className="text-end pe-7">Details</div>,
     cell: ({ row }) => {
       const id = row.getValue("id") as number;
       const total = row.getValue("total") as number;

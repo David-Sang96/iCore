@@ -11,7 +11,7 @@ const AppNav = async () => {
       <NavLogo />
       <div className="flex items-center gap-5">
         <CartBtn />
-        <UserButton user={sessions?.user ?? null} />
+        <UserButton user={sessions?.user} />
       </div>
     </nav>
   );

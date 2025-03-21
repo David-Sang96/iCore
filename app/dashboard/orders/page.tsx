@@ -10,29 +10,31 @@ import { auth } from "@/server/auth";
 import { orders } from "@/server/schema";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
-import { columns } from "./columns";
+
+import { adminColumns } from "@/components/order/admin-column";
+import { userColumns } from "@/components/order/user-column";
 import { DataTable } from "./data-table";
 
 const OrdersPage = async () => {
   const session = await auth();
 
   if (!session?.user) return redirect("/");
+  const isAdmin = session.user.role === "admin";
 
-  const ordersData = await db.query.orders.findMany({
+  let orderProducts;
+
+  orderProducts = await db.query.orders.findMany({
     where: eq(orders.userId, session.user.id),
-    with: {
-      orderProduct: {
-        with: {
-          product: true,
-          variant: { with: { variantImages: true } },
-          order: true,
-        },
-      },
-    },
     orderBy: (orders, { desc }) => [desc(orders.id)],
   });
 
-  const orderData = ordersData.map((item) => ({
+  if (isAdmin) {
+    orderProducts = await db.query.orders.findMany({
+      orderBy: (orders, { desc }) => [desc(orders.id)],
+    });
+  }
+
+  const orderData = orderProducts.map((item) => ({
     id: item.id,
     total: item.total,
     status: item.status,
@@ -43,11 +45,19 @@ const OrdersPage = async () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Your orders</CardTitle>
-        <CardDescription>View all your orders and status</CardDescription>
+        <CardTitle>{isAdmin ? "All orders" : "Your orders"}</CardTitle>
+        <CardDescription>
+          {isAdmin
+            ? "View all the orders and status"
+            : "View all your orders and statuses"}
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <DataTable columns={columns} data={orderData} />
+        {isAdmin ? (
+          <DataTable columns={adminColumns} data={orderData} />
+        ) : (
+          <DataTable columns={userColumns} data={orderData} />
+        )}
       </CardContent>
     </Card>
   );
