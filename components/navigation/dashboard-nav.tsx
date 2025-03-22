@@ -24,7 +24,7 @@ const DashboardNavigationBar = ({ routes }: DashboardNavigationBarProps) => {
         <Link key={idx} href={route.path}>
           <span
             className={cn(
-              "flex items-center text-sm hover:text-primary gap-1",
+              "flex items-center text-sm  gap-1",
               route.path === pathName &&
                 "bg-primary text-primary-foreground px-1 py-0.5 rounded-sm font-medium "
             )}

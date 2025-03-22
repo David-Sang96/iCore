@@ -3,9 +3,17 @@
 import OrderDetails from "@/app/dashboard/orders/order-details";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ColumnDef } from "@tanstack/react-table";
+import { changeOrderStatusAction } from "@/server/actions/order-actions";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ArrowUpDown } from "lucide-react";
+import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 export type Payment = {
   id: number;
@@ -13,6 +21,49 @@ export type Payment = {
   status: string;
   created: Date;
   receiptURL: string;
+};
+
+const ActionCell = ({ row }: { row: Row<Payment> }) => {
+  const handleChangeStatus = async (status: string, id: number) => {
+    const response = await changeOrderStatusAction(status, id);
+    if ("success" in response) toast.success(response.success);
+    if ("error" in response) toast.error(response.error);
+  };
+
+  const payment = row.original;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="link"
+          className="focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none"
+        >
+          Change Status
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem
+          className="data-[highlighted]:bg-blue-500 data-[highlighted]:text-white cursor-pointer"
+          onClick={() => handleChangeStatus("PENDING", payment.id)}
+        >
+          PENDING
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="data-[highlighted]:bg-green-500 data-[highlighted]:text-white cursor-pointer"
+          onClick={() => handleChangeStatus("COMPLETE", payment.id)}
+        >
+          COMPLETE
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          className="data-[highlighted]:bg-red-500 data-[highlighted]:text-white cursor-pointer"
+          onClick={() => handleChangeStatus("CANCEL", payment.id)}
+        >
+          CANCEL
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 };
 
 export const adminColumns: ColumnDef<Payment>[] = [
@@ -106,7 +157,7 @@ export const adminColumns: ColumnDef<Payment>[] = [
     cell: ({ row }) => {
       return (
         <div className="text-end">
-          <Button variant={"link"}>Change Status</Button>
+          <ActionCell row={row} />
         </div>
       );
     },
