@@ -11,7 +11,7 @@ const CartBtn = () => {
     <CartDrawer>
       <div className="relative">
         <ShoppingCart style={{ width: 25, height: 25 }} strokeWidth={3} />
-        <span className="absolute -top-1.5 -right-2 size-5 flex items-center justify-center bg-primary text-white rounded-full text-xs">
+        <span className="absolute -top-1.5 -right-2 size-5 flex items-center justify-center bg-primary text-primary-foreground rounded-full text-sm font-bold">
           {totalCartItems}
         </span>
       </div>

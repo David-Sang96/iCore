@@ -1,5 +1,6 @@
 import { auth } from "@/server/auth";
 import CartBtn from "../cart/cart-btn";
+import { ModeToggle } from "./mode-toggle";
 import NavLogo from "./nav-logo";
 import UserButton from "./user-button";
 
@@ -11,6 +12,7 @@ const AppNav = async () => {
       <NavLogo />
       <div className="flex items-center gap-5">
         <CartBtn />
+        <ModeToggle />
         <UserButton user={sessions?.user} />
       </div>
     </nav>

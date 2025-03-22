@@ -41,7 +41,7 @@ const UserButton = ({ user }: { user: any }) => {
         <DropdownMenuTrigger className="ring-0 border border-primary rounded-full">
           <Avatar>
             <AvatarImage src={user.image!} />
-            <AvatarFallback className="bg-primary text-white font-medium">
+            <AvatarFallback className="bg-primary text-primary-foreground font-medium">
               {getFirstLetterInEachWord(user.name!)}
             </AvatarFallback>
           </Avatar>
@@ -50,7 +50,7 @@ const UserButton = ({ user }: { user: any }) => {
           <div className="flex items-center gap-2.5 p-2 mb-2 cursor-pointer hover:scale-95 duration-500 ease-in-out shadow-md border border-primary/20 rounded-md">
             <Avatar>
               <AvatarImage src={user.image!} />
-              <AvatarFallback className="bg-primary text-white font-medium">
+              <AvatarFallback className="bg-primary text-primary-foreground font-medium">
                 {getFirstLetterInEachWord(user.name!)}
               </AvatarFallback>
             </Avatar>

@@ -43,7 +43,7 @@ const SearchBox = ({ productsWithVariants }: SearchBoxProps) => {
         <Search size={16} className="absolute left-2.5 top-2.5 " />
       </div>
       {searchResult.length > 0 && (
-        <div className="absolute bg-white shadow-md rounded-md w-full z-50 mt-0.5 max-h-60 overflow-y-auto no-scrollbar">
+        <div className="absolute bg-background text-foreground shadow-md rounded-md w-full z-50 mt-0.5 max-h-60 overflow-y-auto no-scrollbar">
           <p className="text-end text-sm text-muted-foreground pb-2 pt-1">
             {searchResult.length} results found.
           </p>
@@ -52,7 +52,7 @@ const SearchBox = ({ productsWithVariants }: SearchBoxProps) => {
               <li>
                 <Link
                   href={`/product/${item.id}?variantId=${item.variants[0].id}&productId=${item.id}&type=${item.variants[0].productType}&image=${item.variants[0].variantImages[0].image_url}&title=${item.title}&price=${item.price}&color=${encodeURIComponent(item.variants[0].color)}`}
-                  className="flex items-center justify-between hover:bg-primary/50 p-2 max-sm:text-sm border-b"
+                  className="flex items-center justify-between hover:bg-primary/50 p-2 max-sm:text-sm border-b "
                 >
                   {item.title}
                   <Image

@@ -56,7 +56,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
             />
             <hr className="h-0.5 bg-primary/20 mb-2" />
             <div
-              className="leading-8"
+              className="leading-8 mb-6"
               dangerouslySetInnerHTML={{
                 __html: productWithVariant.description,
               }}
@@ -64,7 +64,7 @@ const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
             <p className="font-bold text-xl my-2">
               {formatCurrency(productWithVariant.price)}
             </p>
-            <div className="flex gap-2 items-center flex-wrap">
+            <div className="flex gap-2 items-center flex-wrap ">
               <p className="font-medium text-sm">Colors: </p>{" "}
               {productWithVariant.variants.map((v) => (
                 <VariantPicker

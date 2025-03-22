@@ -43,7 +43,7 @@ const ImageSlider = ({ variant }: ImageSliderProps) => {
                     width={448}
                     height={448}
                     sizes="(min-width: 1220px) 552px, (min-width: 380px) 46.59vw, calc(66.67vw - 80px)"
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover rounded-md"
                   />
                 )}
               </CarouselItem>

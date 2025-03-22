@@ -26,7 +26,7 @@ const DashboardNavigationBar = ({ routes }: DashboardNavigationBarProps) => {
             className={cn(
               "flex items-center text-sm hover:text-primary gap-1",
               route.path === pathName &&
-                "text-white bg-primary px-1 py-0.5 rounded-sm font-medium hover:text-white"
+                "bg-primary text-primary-foreground px-1 py-0.5 rounded-sm font-medium "
             )}
           >
             {route.icon}{" "}

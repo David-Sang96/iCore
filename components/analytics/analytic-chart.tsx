@@ -15,6 +15,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { format } from "date-fns";
+import { useTheme } from "next-themes";
 import {
   CartesianGrid,
   Line,
@@ -40,10 +41,15 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 const AnalyticsChart = ({ data }: AnalyticsChartProps) => {
+  const { theme } = useTheme();
+
   const today = new Date();
   const day = Number(format(today, "d"));
   const startDay = day > 7 ? day - 6 : 1;
   const formattedDate = format(today, "dd/MM/yyyy");
+
+  const strokeColor = theme === "dark" ? "white" : "black";
+  const dotFillColor = theme === "dark" ? "black" : "white";
 
   return (
     <Card>
@@ -81,8 +87,11 @@ const AnalyticsChart = ({ data }: AnalyticsChartProps) => {
               <Line
                 dataKey="count"
                 type="natural"
-                stroke="black"
+                stroke={strokeColor}
                 strokeWidth={2}
+                dot={{
+                  fill: dotFillColor,
+                }}
               />
             </LineChart>
           </ResponsiveContainer>

@@ -56,13 +56,13 @@ const UploadAvatarForm = ({ image, name, email }: UploadAvatarFormProps) => {
                       src={form.getValues("image") || image}
                       alt="profile picture"
                     />
-                    <AvatarFallback className="bg-primary text-white font-medium">
+                    <AvatarFallback className="bg-primary text-primary-foreground font-medium">
                       {getFirstLetterInEachWord(name)}
                     </AvatarFallback>
                   </Avatar>
 
                   <UploadButton
-                    className="ut-button:bg-primary ut-button:ring-primary scale-75 !items-start"
+                    className="ut-button:bg-primary ut-button:text-primary-foreground ut-button:ring-primary scale-75 !items-start"
                     endpoint={"imageUploader"}
                     onUploadBegin={() => {
                       setIsUploading(true);
