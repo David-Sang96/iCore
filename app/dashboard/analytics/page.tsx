@@ -6,7 +6,6 @@ import { Box, Clock, Package, TicketX, Users } from "lucide-react";
 const AnalyticsPage = async () => {
   const analyticData = await analytics();
   const weeklyAnalyticsData = await weeklyAnalytics();
-  console.log(weeklyAnalyticsData);
 
   return (
     <section>

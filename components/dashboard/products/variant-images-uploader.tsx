@@ -51,7 +51,7 @@ const VariantImagesUploader = () => {
             <FormControl>
               <UploadDropzone
                 endpoint={"variantImageUploader"}
-                className="ut-button:bg-primary ut-button:text-sm ut-button:py-2 ut-button:px-2 ut-label:text-sm ut-upload-icon:size-5 ut-upload-icon:text-primary/70 h-32 w-full ut-label:text-primary ut-allowed-content:text-primary cursor-pointer"
+                className="ut-button:bg-primary ut-button:ut-readying:bg-primary/50 ut-button:text-sm dark:ut-button:text-black ut-button:py-4 ut-button:px-2 ut-label:text-sm ut-upload-icon:size-5 ut-upload-icon:text-[hsl(var(--foreground))] h-32 w-full ut-label:text-[hsl(var(--foreground))] ut-allowed-content:text-[hsl(var(--foreground))] cursor-pointer"
                 onBeforeUploadBegin={(files) => {
                   files.forEach((file) => {
                     append({
@@ -79,7 +79,7 @@ const VariantImagesUploader = () => {
                       if (uploadedImage) {
                         update(idx, {
                           ...variantImage,
-                          url: uploadedImage.url,
+                          url: uploadedImage.ufsUrl,
                           key: uploadedImage.key,
                         });
                       }

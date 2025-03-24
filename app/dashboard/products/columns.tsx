@@ -165,7 +165,7 @@ export const columns: ColumnDef<Product>[] = [
           ))}
           <VariantDialog editMode={false} productId={product.id}>
             <CirclePlus
-              className="size-5 text-gray-500 hover:text-black duration-200 cursor-pointer"
+              className="size-5 text-[hsl(var(--foreground))] duration-200 cursor-pointer"
               aria-label="open model"
             />
           </VariantDialog>

@@ -112,8 +112,9 @@ html body[data-scroll-locked] {
 }
 
 /* modify uploading button  */
-[data-ut-element="button"][data-state="uploading"]::after {
-  @apply bg-primary/90;
+/* Fix for animation resetting to blue */
+[data-ut-element="button"]::after {
+  background-color: hsl(var(--primary-foreground) / 0.5) !important;
 }
 
 .heading h1 {

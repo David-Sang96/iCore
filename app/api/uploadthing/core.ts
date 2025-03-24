@@ -11,7 +11,7 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   }).onUploadComplete(async ({ metadata, file }) => {
-    console.log("file url", file.url);
+    console.log("file url", file.ufsUrl);
   }),
 
   variantImageUploader: f({
@@ -20,7 +20,7 @@ export const ourFileRouter = {
       maxFileCount: 10,
     },
   }).onUploadComplete(async ({ metadata, file }) => {
-    console.log("Variant file url", file.url);
+    console.log("Variant file url", file.ufsUrl);
   }),
 } satisfies FileRouter;
 

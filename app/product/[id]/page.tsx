@@ -1,4 +1,4 @@
-export const revalidate = 0; // Always fetch fresh data
+export const revalidate = 0; //Always fetch fresh data
 
 import AddToCart from "@/components/cart/add-to-cart";
 import ColorTag from "@/components/products/color-tag";
@@ -15,20 +15,20 @@ type ProductDetailPageProps = {
   };
 };
 
-export async function generateStaticParams() {
-  const data = await db.query.products.findMany({
-    with: {
-      variants: {
-        with: { variantImages: true, variantTags: true },
-      },
-    },
-  });
-  if (data) {
-    const ids = data.map((d) => ({ id: d.id.toString() }));
-    return ids;
-  }
-  return [];
-}
+// export async function generateStaticParams() {
+//   const data = await db.query.products.findMany({
+//     with: {
+//       variants: {
+//         with: { variantImages: true, variantTags: true },
+//       },
+//     },
+//   });
+//   if (data) {
+//     const ids = data.map((d) => ({ id: d.id.toString() }));
+//     return ids;
+//   }
+//   return [];
+// }
 
 const ProductDetailPage = async ({ params }: ProductDetailPageProps) => {
   const productWithVariant = await db.query.products.findFirst({

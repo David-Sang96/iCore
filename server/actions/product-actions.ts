@@ -47,6 +47,7 @@ export const createOrUpdateProductAction = actionClient
           })
           .returning();
         revalidatePath("/dashboard/products");
+        revalidatePath("/dashboard/analytics");
         return { success: "Created successfully", product: product[0] };
       }
     } catch (error) {
@@ -86,8 +87,9 @@ export const deleteProductAction = actionClient
 
       await db.delete(products).where(eq(products.id, product.id));
 
-      revalidatePath("/dashboard/products");
       revalidatePath("/");
+      revalidatePath("/dashboard/products");
+      revalidatePath("/dashboard/analytics");
       return { success: "Deleted successfully" };
     } catch (error) {
       return { error: "Something went wrong" };
@@ -152,6 +154,7 @@ export const createOrUpdateVariantAction = actionClient
 
           revalidatePath("/dashboard/products");
           revalidatePath("/");
+          revalidatePath("/product");
           return { success: `${product.title} variant updated successfully` };
         }
 

@@ -113,13 +113,6 @@
       "when": 1742192691105,
       "tag": "0015_thin_karnak",
       "breakpoints": true
-    },
-    {
-      "idx": 16,
-      "version": "7",
-      "when": 1742192758269,
-      "tag": "0016_furry_punisher",
-      "breakpoints": true
     }
   ]
 }
